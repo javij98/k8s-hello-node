@@ -19,6 +19,7 @@ spec:
       containers:
         - name: "k8s-hello-node"
           image: "byjg/k8s-hello-node"
+          imagePullPolicy: Always
           resources:
             requests:
               memory: "64Mi"

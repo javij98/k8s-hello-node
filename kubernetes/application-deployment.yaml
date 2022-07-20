@@ -3,7 +3,6 @@ apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "k8s-node"
-  namespace: "default"
   labels:
     app: "k8s-node"
 spec:

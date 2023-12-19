@@ -54,9 +54,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.targetPath }}
-          key: ${{ runner.os }}-build-${{ hashFiles('**/lockfiles') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
+          id: gradle-cache
 
       - name: Test
         run: .github/workflows/scripts/test.sh

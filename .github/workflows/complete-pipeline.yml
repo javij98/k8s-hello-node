@@ -54,7 +54,6 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.targetPath }}
-          id: gradle-cache
 
       - name: Test
         run: .github/workflows/scripts/test.sh

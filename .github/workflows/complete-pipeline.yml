@@ -45,12 +45,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.targetPath }}
-          key: ${{ runner.os }}-complete-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-complete-${{ GITHUB_SHA }}
       
       - name: list files
         run: ls -la
 
   Test:
+    needs: Build
     name: Test
     runs-on: ubuntu-latest
     steps:
@@ -68,7 +69,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: ${{ env.targetPath }}
-          key: ${{ runner.os }}-complete-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-complete-${{ GITHUB_SHA }}
         
       - name: list files
         run: ls -la
@@ -83,6 +84,7 @@ jobs:
           files: '**/TEST-*.xml'
   
   Quality:
+    needs: Test
     name: SonarQube analysis
     runs-on: ubuntu-latest
     steps:
@@ -99,7 +101,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.targetPath }}
-          key: ${{ runner.os }}-complete-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-complete-${{ GITHUB_SHA }}
 
       - name: list files
         run: ls -la

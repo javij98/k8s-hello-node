@@ -41,12 +41,11 @@ jobs:
       - name: list files
         run: ls -la ${{ env.targetPath }}     #
 
-      - name: Restore cached Primes
-        id: cache-primes-restore
-        uses: actions/cache/restore@v3
+      - name: Cache check
+        uses: actions/cache@v2
         with:
-          path: ${{ env.targetPath }}            
-          key: ${{ runner.os }}-primes
+          path: ${{ env.targetPath }}
+          key: ${{ runner.os }}-complete-${{ hashFiles('**/package-lock.json') }}
       
       - name: list files
         run: ls -la
@@ -63,7 +62,14 @@ jobs:
 
       - name: list files
         run: ls -la
-
+        
+      - name: Restore cache
+        id: cache-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ env.targetPath }}
+          key: ${{ runner.os }}-complete-${{ hashFiles('**/package-lock.json') }}
+        
       - name: list files
         run: ls -la
 

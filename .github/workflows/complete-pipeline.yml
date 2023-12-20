@@ -41,11 +41,12 @@ jobs:
       - name: list files
         run: ls -la ${{ env.targetPath }}     #
 
-      - name: Cache check
-        uses: actions/cache@v3                # CAMBIAR ESTO POR EL CACHÉ DE LA FOTO/ DOCU DE CAMILO
+      - name: Restore cached Primes
+        id: cache-primes-restore
+        uses: actions/cache/restore@v3
         with:
-          path: ${{ env.targetPath }} #./BuildOutput.tar
-          key: ${{ runner.os }}-complete-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ env.targetPath }}            
+          key: ${{ runner.os }}-primes
       
       - name: list files
         run: ls -la
@@ -62,12 +63,6 @@ jobs:
 
       - name: list files
         run: ls -la
-
-      - name: Cache check
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.targetPath }}
-          key: ${{ runner.os }}-complete-${{ hashFiles('**/package-lock.json') }} # lockfiles
 
       - name: list files
         run: ls -la

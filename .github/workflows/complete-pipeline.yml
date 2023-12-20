@@ -40,9 +40,10 @@ jobs:
 
       - name: list files
         run: ls -la ${{ env.targetPath }}     #
-
-      - name: Cache check
-        uses: actions/cache@v2
+        
+      - name: Save cache
+        id: cache-primes-save
+        uses: actions/cache/save@v3
         with:
           path: ${{ env.targetPath }}
           key: ${{ runner.os }}-complete-${{ github.sha }}

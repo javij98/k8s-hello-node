@@ -45,7 +45,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.targetPath }}
-          key: ${{ runner.os }}-complete-${{ GITHUB_SHA }}
+          key: ${{ runner.os }}-complete-${{ github.sha }}
       
       - name: list files
         run: ls -la
@@ -69,7 +69,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: ${{ env.targetPath }}
-          key: ${{ runner.os }}-complete-${{ GITHUB_SHA }}
+          key: ${{ runner.os }}-complete-${{ github.sha }}
         
       - name: list files
         run: ls -la
@@ -101,7 +101,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.targetPath }}
-          key: ${{ runner.os }}-complete-${{ GITHUB_SHA }}
+          key: ${{ runner.os }}-complete-${{ github.sha }}
 
       - name: list files
         run: ls -la

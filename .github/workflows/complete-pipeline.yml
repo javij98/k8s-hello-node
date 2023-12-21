@@ -29,21 +29,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: list files
+        run: ls -la
+
       - name: Checkout the repository
-        uses: actions/checkout@v2             # Aquí en vez de hacer checkout cada vez, sería comprobar la caché cada vez
+        uses: actions/checkout@v2
+
+      - name: list files
+        run: ls -la
+
+      - name: Cache check
+        id: cache-check
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.targetPath }}
+          key: ${{ runner.os }}-complete-${{ github.sha }}
+
+      - name: list files
+        run: ls -la
 
       - name: Build the application
+        if: steps.cache-check.outputs.cache-hit != 'true'
         run: .github/workflows/scripts/build.sh
 
       - name: Archiving artifact
+        if: steps.cache-check.outputs.cache-hit != 'true'
         run: pwd;ls -l;tar -cvf ./BuildOutput.tar -C ${{ env.targetPath }}/ .
 
-      - name: list files
-        run: ls -la ${{ env.targetPath }}     #
-        
       - name: Save cache
-        id: cache-primes-save
-        uses: actions/cache/save@v3
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        uses: actions/cache@v2
         with:
           path: ${{ env.targetPath }}
           key: ${{ runner.os }}-complete-${{ github.sha }}
@@ -98,8 +113,9 @@ jobs:
       - name: list files
         run: ls -la
 
-      - name: Cache check
-        uses: actions/cache@v2
+      - name: Restore cache
+        id: cache-restore
+        uses: actions/cache/restore@v3
         with:
           path: ${{ env.targetPath }}
           key: ${{ runner.os }}-complete-${{ github.sha }}
